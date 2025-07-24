@@ -1,0 +1,16 @@
+# Node modules
+node_modules/
+
+# Ortaya çıkan log dosyaları
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ortam değişkenleri
+.env
+
+# Çeşitli sistem dosyaları
+.DS_Store
+
+# VSCode ayarları (isteğe bağlı)
+.vscode/

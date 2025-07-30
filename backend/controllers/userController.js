@@ -12,7 +12,8 @@ export const register = async (req, res) => {
         const { name, email, password, avatar } = req.body;
 
         if (!name || !email || !password || !avatar) {
-            return res.status(400).json({ message: "All fields are required" });
+            return res.status(400).json({ message: "All fields are required " });
+            
         }
 
         const existingUser = await User.findOne({ email });
@@ -52,57 +53,65 @@ export const register = async (req, res) => {
     }
 };
 
-
 export const login = async (req, res) => {
-  try {
-    console.log(req.body); // Gelen body'yi kontrol edin
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Please provide email and password' });
+    try {
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Please provide email and password' });
+      }
+  
+      // Password alanı seçilsin
+      const user = await User.findOne({ email }).select('+password');
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const accessToken = jwt.sign(
+        { userId: user._id },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRE || '15m' }
+      );
+  
+      const refreshToken = jwt.sign(
+        { userId: user._id }, 
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRE || '7d' }
+      );
+  
+      user.refreshToken = refreshToken;
+      await user.save();
+  
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 gün
+      });
+  
+      // FIX: Send the accessToken back to frontend
+      res.status(200).json({
+        message: 'Login successful',
+        accessToken,
+        user: {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar
+          // Don't send password or refreshToken
+        }
+      });
+  
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
     }
-
-    // Password alanı seçilsin
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-    const accessToken = jwt.sign(
-      { userId: user._id },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: process.env.ACCESS_TOKEN_EXPIRE || '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { userId: user._id },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: process.env.REFRESH_TOKEN_EXPIRE || '7d' }
-    );
-
-    user.refreshToken = refreshToken;
-    await user.save();
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 gün
-    });
-
-    res.json({ accessToken, userId: user._id });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
+  };
   
 export const logout=async(req,res)=>{
     try {
@@ -131,18 +140,24 @@ export const logout=async(req,res)=>{
     }
 }
 
-export const getUserProfile=async(req,res)=>{
+export const getUserProfile = async (req, res) => {
     try {
+        // Check if user exists from middleware
+        if (!req.user) {
+            console.log('❌ No req.user found - middleware issue');
+            return res.status(401).json({ message: "Authentication failed" });
+        }
         const user = await User.findById(req.user._id).select('-password -refreshToken');
+
         if (!user) {
+            console.log('❌ User not found in database');
             return res.status(404).json({ message: "User not found" });
         }
         res.status(200).json({ user });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
-}
+};
 
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;

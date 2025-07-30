@@ -49,7 +49,7 @@ function Register() {
   return (
 
     <div className='flex min-h-screen'>
-      <div className='flex-1 flex items-center justify-center m-5'>
+      <div className='flex-1 flex items-center justify-center m'>
       <div className='bg-white shadow-lg flex flex-col items-center justify-center' style={{ width: 500, height: 500 }}>
       <h2 className='mb-6 text-center text-2xl font-extrabold text-gray-900'>Register</h2>
       <form className='w-full space-y-4 ' onSubmit={handleSubmit}>

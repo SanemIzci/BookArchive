@@ -21,7 +21,7 @@ function Footer() {
         <div className="flex flex-wrap gap-4 mb-6 mx-auto items-center">
           <a href="/about" className="hover:underline">About</a>
           <a href="/profile" className="hover:underline">Profile</a>
-          <a href="/collections" className="hover:underline">Book Shelve</a>
+          <a href="/dashboard" className="hover:underline">Book Shelve</a>
           <a href="/favorites" className="hover:underline">Favorites</a>
         </div>
 

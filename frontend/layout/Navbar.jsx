@@ -17,6 +17,7 @@ function Navbar() {
 
   const navItems = [
     { label: 'Home', path: '/' },
+    { label: 'Dashboard', path: '/dashboard' },
     { label: 'Log Books', path: '/log-books' },
     { label: 'Favorites', path: '/favorites' },
   ];
@@ -39,7 +40,7 @@ function Navbar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed md:fixed top-0 left-0 h-full shadow-2xl w-64 
+        className={`fixed md:fixed top-0 left-0 h-full shadow-2xl w-[2/5]  md:w-64
           p-4 transition-transform duration-300 z-20
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           md:translate-x-0`}

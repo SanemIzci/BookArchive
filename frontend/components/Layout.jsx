@@ -6,7 +6,7 @@ function Layout() {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 flex flex-col">
+      <aside className="md:w-64 w-[1/5] flex flex-col">
         <Navbar />
       </aside>
 

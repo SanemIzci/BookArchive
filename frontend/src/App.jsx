@@ -6,7 +6,7 @@ import Register from '../pages/Register.jsx';
 import ForgotPassword from '../pages/ForgotPassword.jsx';
 import ResetPassword from '../pages/ResetPassword.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
-
+import Details from '../pages/Details.jsx';
 function App() {
   return (
     <Routes>
@@ -17,6 +17,7 @@ function App() {
           <Route path="forgotPassword" element={<ForgotPassword/>}/>
           <Route path="resetPassword" element={<ResetPassword/>}/>
           <Route path="dashboard" element={<Dashboard/>}/>
+          <Route path="books/:id" element={<Details/>}/>
         </Route>
     </Routes>
   );

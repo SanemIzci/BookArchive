@@ -28,6 +28,9 @@ const Dashboard = () => {
   if (!isAuth) {
     return <div className="flex justify-center items-center h-screen">Redirecting to login...</div>;
   }
+  const HandleRoute=()=>{
+    navigate('details')
+  }
 
   return (
     <div className="p-4">
@@ -60,10 +63,10 @@ const Dashboard = () => {
             <div className="col-span-full text-center py-8">
               <p className="text-gray-500">No books are added yet</p>
               <button 
-                onClick={() => navigate('/add-book')}
+                onClick={HandleRoute}
                 className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
               >
-                Add Your First Book
+                Add Your First Bookq
               </button>
             </div>
           )

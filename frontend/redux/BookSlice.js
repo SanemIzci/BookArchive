@@ -34,6 +34,34 @@ export const getBooks = createAsyncThunk(
     }
   }
 );
+export const getBookDetail = createAsyncThunk(
+  'book/getBookDetail',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = state.user.accessToken || localStorage.getItem('accessToken');
+      
+      const response = await fetch(`http://localhost:3000/books/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return rejectWithValue(data.message || 'Failed to fetch book');
+      }
+      return data.book; 
+    } catch (error) {
+      return rejectWithValue(error.message || 'Something went wrong');
+    }
+  }
+);
+
+
+
 
 export const bookSlice = createSlice({
   name: 'book',
@@ -57,6 +85,18 @@ export const bookSlice = createSlice({
         state.books = action.payload;
       })
       .addCase(getBooks.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getBookDetail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getBookDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.book = action.payload;
+      })
+      .addCase(getBookDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

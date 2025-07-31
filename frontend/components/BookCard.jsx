@@ -1,5 +1,7 @@
 import { FaStar, FaHeart, FaRegHeart } from 'react-icons/fa';
 
+
+
 const BookCard = ({
   title,
   author,
@@ -11,6 +13,8 @@ const BookCard = ({
   isFavorite,
   onClick,
 }) => {
+
+  
   return (
     <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-xs hover:shadow-lg transition flex flex-col items-center space-y-1">
         <button className='self-end'>
@@ -56,9 +60,9 @@ const BookCard = ({
 
       <button
         onClick={onClick}
-        className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm self-start"
+        className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm "
       >
-        Detay
+        Details
       </button>
     </div>
   );

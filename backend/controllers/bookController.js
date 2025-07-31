@@ -11,6 +11,17 @@ export const allBooks=async(req,res)=>{
         
     }
 }
+export const BookDetail = async (req, res) => {
+  try {
+    const book_detail = await Book.findById(req.params.id);
+    if (!book_detail) {
+      return res.status(404).json({ success: false, message: "Book not found." });
+    }
+    res.status(200).json({ success: true, book: book_detail });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export const addBook = async (req, res) => {
   try {

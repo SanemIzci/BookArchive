@@ -9,6 +9,7 @@ export default {
         fontFamily: {
           cormorant: ['Cormorant', 'serif'],
           noto: ['Noto Serif', 'serif'],
+          dmSerif: ['DM Serif Display', 'serif']
         },
       },
     },

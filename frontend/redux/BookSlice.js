@@ -60,6 +60,58 @@ export const getBookDetail = createAsyncThunk(
   }
 );
 
+export const starReview = createAsyncThunk(
+  'book/starReview',
+  async ({ id, rating }, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = state.user.accessToken || localStorage.getItem('accessToken');
+      const response = await fetch(`http://localhost:3000/books/${id}/rating`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating }),
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return rejectWithValue(data.message || 'Failed to update rating');
+      }
+      return data.book; // Güncellenmiş kitap objesi
+    } catch (error) {
+      return rejectWithValue(error.message || 'Something went wrong');
+    }
+  }
+);
+
+export const updateReadingStatus = createAsyncThunk(
+  'book/updateReadingStatus',
+  async ({ id, readingStatus }, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = state.user.accessToken || localStorage.getItem('accessToken');
+      const response = await fetch(`http://localhost:3000/books/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ readingStatus }),
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return rejectWithValue(data.message || 'Failed to update reading status');
+      }
+      return data.book; // Güncellenmiş kitap objesi
+    } catch (error) {
+      return rejectWithValue(error.message || 'Something went wrong');
+    }
+  }
+);
+
 
 
 
@@ -97,6 +149,22 @@ export const bookSlice = createSlice({
         state.book = action.payload;
       })
       .addCase(getBookDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(starReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.book = action.payload; // Güncellenmiş kitap objesini store'a yaz
+      })
+      .addCase(starReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateReadingStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.book = action.payload; // Güncellenmiş kitap objesini store'a yaz
+      })
+      .addCase(updateReadingStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

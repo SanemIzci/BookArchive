@@ -126,6 +126,10 @@ export const updateBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({ success: false, message: "Book not found." });
     }
+    // 🔒 Güvenlik kontrolü
+    if (book.user.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: "You are not authorized to update this book." });
+    }
 
     const updatedBook = await Book.findByIdAndUpdate(
       req.params.id,
@@ -171,6 +175,27 @@ export const starReview = async (req, res) => {
     }
 
     book.rating = rating;
+    await book.save();
+
+    res.status(200).json({ success: true, book });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const updateReadingStatus = async (req, res) => {
+  try {
+    const { readingStatus } = req.body;
+    if (!readingStatus) {
+      return res.status(400).json({ success: false, message: "Reading status is required." });
+    }
+
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ success: false, message: "Book not found." });
+    }
+
+    book.readingStatus = readingStatus;
     await book.save();
 
     res.status(200).json({ success: true, book });

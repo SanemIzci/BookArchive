@@ -1,6 +1,8 @@
 import { FaStar, FaHeart, FaRegHeart } from 'react-icons/fa';
 import StarRating from './StarRating';
-
+import { toggleFavorite } from '../redux/BookSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const BookCard = ({
   title,
   author,
@@ -11,10 +13,19 @@ const BookCard = ({
   readDate,
   isFavorite,
   onClick,
+  _id
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleToggleFavorite = () => {
+    dispatch(toggleFavorite({id:_id}));
+  } 
   return (
     <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-xs hover:shadow-lg transition flex flex-col items-center space-y-1">
-        <button className='self-end'>
+        <button 
+          className='self-end'
+          onClick={handleToggleFavorite}
+        >
           {isFavorite ? (
             <FaHeart className="text-red-500" size={20}/>
           ) : (
@@ -30,7 +41,7 @@ const BookCard = ({
       )}
       <div className="flex justify-between items-start">
         <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
+          <h3 className="text-lg font-noto-italic-bold">{title}</h3>
           <p className="text-gray-600 text-sm">{author}</p>
         </div>
         
@@ -53,7 +64,7 @@ const BookCard = ({
       </span>
 
       <button
-        onClick={onClick}
+        onClick={() => navigate(`/books/${_id}`)}
         className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
       >
         Detay

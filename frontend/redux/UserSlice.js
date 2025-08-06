@@ -48,7 +48,7 @@ export const fetchUserProfile = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.accessToken || localStorage.getItem('accessToken');
+      const token = state.user.accessToken || localStorage.getItem('accessToken');
       console.log('Token:', token);
       if (!token) {
         return rejectWithValue('No access token available');
@@ -130,6 +130,7 @@ export const userSlice = createSlice({
     clearUser: (state) => {
       state.user = null;
       state.isAuth = false;
+      state.accessToken = null;
       state.error = null;
     },
     setAuth: (state, action) => {
@@ -146,11 +147,13 @@ export const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.isAuth = true;
+        state.accessToken = localStorage.getItem('accessToken'); // Token'ı state'e ekle
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to fetch profile';
         state.isAuth = false;
+        state.accessToken = null; // Token'ı temizle
       })
       .addCase(login.pending, (state) => {
         state.loading = true;
@@ -160,11 +163,13 @@ export const userSlice = createSlice({
         state.loading = false;
         state.accessToken = action.payload.accessToken;
         state.user = action.payload.user;
+        state.isAuth = true; // Bu satırı ekledim
         localStorage.setItem('accessToken', action.payload.accessToken);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuth = false; // Bu satırı ekledim
       })
       .addCase(register.pending,(state)=>{
         state.loading=true;

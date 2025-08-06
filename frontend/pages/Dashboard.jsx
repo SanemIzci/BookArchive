@@ -20,7 +20,7 @@ const Dashboard = () => {
       return;
     }
     
-    
+
     dispatch(getBooks());
   }, [dispatch, isAuth, navigate]);
 
@@ -46,6 +46,7 @@ const Dashboard = () => {
         {books && books.length > 0 ? (
           books.map((book) => (
             <BookCard
+              _id={book._id}
               key={book._id}
               title={book.title}
               author={book.author}

@@ -12,8 +12,9 @@ router.get('/test', (req, res) => {
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);  
-router.post('/forgot-password', forgotPassword); // Şifre sıfırlama isteği için
+router.post('/forgot-password', forgotPassword); 
 router.post('/reset-password', resetPassword);
-router.post('/refresh-token', refreshToken); // Access token yenileme  // Şifre sıfırlama işlemi için
-router.get('/profile', authenticationMid, getUserProfile); // Kullanıcı profili için
+router.post('/refresh-token', refreshToken);
+router.get('/profile', authenticationMid, getUserProfile);
+
 export default router;

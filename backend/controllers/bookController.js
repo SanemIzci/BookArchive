@@ -27,20 +27,20 @@ export const addBook = async (req, res) => {
   try {
     let image = null;
 
-    // 1) Eğer multer ile dosya geldi ise (normal upload)
+    
     if (req.file) {
       // Cloudinary'ye yükle
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "books", // opsiyonel klasör ismi
+        folder: "books", 
       });
       image = {
         public_id: result.public_id,
         url: result.secure_url,
       };
-      // Lokaldeki dosyayı temizle
+      
       fs.unlinkSync(req.file.path);
     } 
-    // 2) Eğer base64 formatında resim gelmişse (postman raw test için)
+    
     else if (req.body.image) {
       const result = await cloudinary.uploader.upload(req.body.image, {
         folder: "books",
@@ -64,14 +64,14 @@ export const addBook = async (req, res) => {
       isFavorite,
     } = req.body;
 
-    // Gerekli alan kontrolü
+    
     if (!title || !author || !readingStatus) {
       return res
         .status(400)
         .json({ success: false, message: "Title, author and reading status are required." });
     }
 
-    // Yeni kitap yaratma
+    
     const book = await Book.create({
       user,
       title,
@@ -95,7 +95,7 @@ export const addBook = async (req, res) => {
 
 
 
-// ✅ Delete Book Controller
+
 export const deleteBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -103,7 +103,7 @@ export const deleteBook = async (req, res) => {
       return res.status(404).json({ success: false, message: "Book not found." });
     }
 
-    // Cloudinary'den resmi sil
+    
     if (book.image && book.image.length > 0) {
       for (const img of book.image) {
         if (img.public_id) {
@@ -126,7 +126,7 @@ export const updateBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({ success: false, message: "Book not found." });
     }
-    // 🔒 Güvenlik kontrolü
+    
     if (book.user.toString() !== req.user.id) {
       return res.status(403).json({ success: false, message: "You are not authorized to update this book." });
     }
@@ -146,7 +146,7 @@ export const updateBook = async (req, res) => {
 export const addReview = async (req, res) => {
   try {
     const { review } = req.body;
-    const { id } = req.params; // Book ID from URL
+    const { id } = req.params; L
 
     const book = await Book.findByIdAndUpdate(
       id,
@@ -183,6 +183,49 @@ export const starReview = async (req, res) => {
   }
 };
 
+export const postReview = async (req, res) => {
+  try {
+    const {review} = req.body;
+    const {id} = req.params;
+    const book = await Book.findById(id);
+    if(!book){
+      return res.status(404).json({success:false,message:"Book not found"});
+    }
+    book.review = review;
+    await book.save();
+    res.status(200).json({success:true,book});
+  } catch (error) {
+    res.status(500).json({success:false,message:error.message});
+  }
+}
+export const getReviews = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const book = await Book.findById(id);
+    if(!book){
+      return res.status(404).json({success:false,message:"Book not found"});
+    }
+    
+    res.status(200).json({success:true,review:book.review});
+  } catch (error) {
+    res.status(500).json({success:false,message:error.message});
+  }
+}
+export const updateReview = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {review} = req.body;
+    const book = await Book.findById(id);
+    if(!book){
+      return res.status(404).json({success:false,message:"Book not found"});
+    }
+    book.review = review;
+    await book.save();
+    res.status(200).json({success:true,review:book.review});
+  } catch (error) {
+    res.status(500).json({success:false,message:error.message});
+  }
+}
 export const updateReadingStatus = async (req, res) => {
   try {
     const { readingStatus } = req.body;
@@ -203,3 +246,28 @@ export const updateReadingStatus = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const getFavorites = async (req, res) => {
+  try {
+    
+    const favorites = await Book.find({ isFavorite: true });
+    res.status(200).json({ success: true, favorites });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const toggleFavorite = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const book = await Book.findById(id);
+    if(!book){
+      return res.status(404).json({success:false,message:"Book not found"});
+    }
+    book.isFavorite = !book.isFavorite;
+    await book.save();
+    res.status(200).json({success:true,book});
+  } catch (error) {
+    res.status(500).json({success:false,message:error.message});
+  }
+}

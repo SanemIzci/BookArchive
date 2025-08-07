@@ -3,6 +3,7 @@ import StarRating from './StarRating';
 import { toggleFavorite } from '../redux/BookSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Button from './Button';
 const BookCard = ({
   title,
   author,
@@ -13,15 +14,25 @@ const BookCard = ({
   readDate,
   isFavorite,
   onClick,
-  _id
+  _id,
+  onFavoriteToggle
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleToggleFavorite = () => {
-    dispatch(toggleFavorite({id:_id}));
+  
+  const handleToggleFavorite = async () => {
+    try {
+      await dispatch(toggleFavorite({id:_id})).unwrap();
+      // Reload favorites list after successful toggle
+      if (onFavoriteToggle) {
+        onFavoriteToggle();
+      }
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error);
+    }
   } 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-xs hover:shadow-lg transition flex flex-col items-center space-y-1">
+    <div className="bg-[#dfdbd0]  rounded-xl shadow-md p-4 w-full max-w-xs hover:shadow-lg transition flex flex-col items-center space-y-1 justify-center">
         <button 
           className='self-end'
           onClick={handleToggleFavorite}
@@ -47,7 +58,7 @@ const BookCard = ({
         
       </div>
 
-      <span className="text-xs mt-1 inline-block bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+      <span className="text-xs mt-1 inline-block bg-[#d6a49b] text-gray-700 px-2 py-0.5 rounded-full">
         {category}
       </span>
 
@@ -63,12 +74,15 @@ const BookCard = ({
           : `Status: ${readingStatus}`}
       </span>
 
-      <button
+
+      <Button
         onClick={() => navigate(`/books/${_id}`)}
-        className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
-      >
-        Detay
-      </button>
+        name="Detay"
+        size="sm"
+        color="#d6a49b"
+      />
+
+      
     </div>
   );
 };

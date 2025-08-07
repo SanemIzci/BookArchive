@@ -359,6 +359,24 @@ export const bookSlice = createSlice({
       .addCase(toggleFavorite.fulfilled, (state, action) => {
         state.loading = false;
         state.book = action.payload;
+        
+        // Update the book in the books array
+        const bookIndex = state.books.findIndex(book => book._id === action.payload._id);
+        if (bookIndex !== -1) {
+          state.books[bookIndex] = action.payload;
+        }
+        
+        // Update favorites array based on the new favorite status
+        if (action.payload.isFavorite) {
+          // Add to favorites if not already there
+          const existingFavorite = state.favorites.find(fav => fav._id === action.payload._id);
+          if (!existingFavorite) {
+            state.favorites.push(action.payload);
+          }
+        } else {
+          // Remove from favorites
+          state.favorites = state.favorites.filter(fav => fav._id !== action.payload._id);
+        }
       })
       .addCase(toggleFavorite.rejected, (state, action) => {
         state.loading = false;

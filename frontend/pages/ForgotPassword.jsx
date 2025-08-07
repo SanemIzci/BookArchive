@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { forgot } from '../redux/UserSlice';
+import Footer from '../layout/Footer';
 
 function ForgotPassword() {
     const [email1, setEmail1] = useState('')
@@ -28,8 +29,8 @@ function ForgotPassword() {
     };
     
     return (
-        <div className='flex min-h-screen'>
-            <div className='flex-1 flex items-center justify-center m'>
+        <div className='flex min-h-screen flex-col'>
+            <div className='flex-1 flex items-center justify-center'>
                 <div className='bg-white shadow-lg rounded-lg flex flex-col items-center justify-center' style={{ width: 500, height: 500 }}>
                     <h2 className='mb-6 text-center text-2xl font-extrabold text-gray-900'>Forgot password</h2>
                     <form onSubmit={handleSubmit} className="w-full space-y-4">
@@ -66,6 +67,7 @@ function ForgotPassword() {
                     </form>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

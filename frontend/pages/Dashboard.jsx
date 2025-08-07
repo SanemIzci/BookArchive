@@ -24,16 +24,20 @@ const Dashboard = () => {
     dispatch(getBooks());
   }, [dispatch, isAuth, navigate]);
 
+  const handleFavoriteToggle = () => {
+    dispatch(getBooks());
+  };
+
   
   if (!isAuth) {
-    return <div className="flex justify-center items-center h-screen">Redirecting to login...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Redirecting to login...</div>;
   }
   const HandleRoute=()=>{
     navigate('details')
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-full">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">My Books</h2>
         
@@ -42,7 +46,7 @@ const Dashboard = () => {
       {loading && <p className="text-center py-4">Loading...</p>}
       {error && <p className="text-red-500 text-center py-4">Error: {error}</p>}
 
-      <div className="flex w-full md:w-[1/4] space-x-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {books && books.length > 0 ? (
           books.map((book) => (
             <BookCard
@@ -57,6 +61,7 @@ const Dashboard = () => {
               readDate={book.readDate}
               isFavorite={book.isFavorite}
               onClick={() => navigate(`/books/${book._id}`)}
+              onFavoriteToggle={handleFavoriteToggle}
             />
           ))
         ) : (

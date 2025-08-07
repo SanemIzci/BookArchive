@@ -24,9 +24,14 @@
   font-weight: 700;
   font-style: italic;
 }
+.font-cormorant-italic {
+  font-family: "Cormorant", serif;
+  font-weight: 400;
+  font-style: italic;
+}
 .dm-serif-display-regular {
     font-family: "DM Serif Display", serif;
-    font-weight: 400;
+    font-weight: 700;
     font-style: normal;
   }
   

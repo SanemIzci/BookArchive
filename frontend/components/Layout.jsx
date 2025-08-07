@@ -11,13 +11,11 @@ function Layout() {
       </aside>
 
       {/* Main Content + Footer */}
-      <div className="flex-1 flex flex-col bg-white">
-        <main className="flex-1 overflow-y-auto">
+      <div className="flex-1 flex flex-col bg-white min-h-screen">
+        <main className="flex-1">
           <Outlet />
         </main>
-        <footer className="">
-          <Footer />
-        </footer>
+        <Footer />
       </div>
     </div>
   )

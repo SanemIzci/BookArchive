@@ -96,7 +96,7 @@ function Details() {
                         </h2>
                     )}
                     
-                    <div className="space-y-4 md:space-y-5 md:mb-20 md:mx-auto w-[60%]">
+                    <div className="space-y-4 md:space-y-5 md:mb-20 md:mx-auto w-full">
                         <div className="flex flex-col space-y-4">
                             {/* Rating Section */}
                             <div className="flex flex-row items-center space-x-4">

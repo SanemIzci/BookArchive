@@ -15,8 +15,12 @@ function Favorites() {
         dispatch(getFavorites());
     }, [dispatch]);
     
+    const handleFavoriteToggle = () => {
+        dispatch(getFavorites());
+    };
+    
     return (
-        <div className="min-h-screen bg-[#f0eee2] px-4 md:px-8 py-8">
+        <div className="min-h-screen  px-4 md:px-8 py-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
@@ -71,6 +75,7 @@ function Favorites() {
                                 readingStatus={favorite.readingStatus}  
                                 isFavorite={favorite.isFavorite}
                                 onClick={() => navigate(`/books/${favorite._id}`)}
+                                onFavoriteToggle={handleFavoriteToggle}
                             />
                         ))}
                     </div>

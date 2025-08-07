@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../redux/UserSlice';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../layout/Footer';
 
 function ResetPassword() {
     const [token,Settoken]=useState('');
@@ -29,8 +30,8 @@ function ResetPassword() {
     }
 
   return (
-    <div className='flex min-h-screen'>
-    <div className='flex-1 flex items-center justify-center m'>
+    <div className='flex min-h-screen flex-col'>
+    <div className='flex-1 flex items-center justify-center'>
         <div className='bg-white shadow-lg rounded-lg flex flex-col items-center justify-center' style={{ width: 500, height: 500 }}>
             <h2 className='mb-6 text-center text-2xl font-extrabold text-gray-900'>Reset Password</h2>
             <form onSubmit={handleSubmit} className="w-full space-y-4">
@@ -78,6 +79,7 @@ function ResetPassword() {
             </form>
         </div>
     </div>
+    <Footer />
 </div>
   )
 }

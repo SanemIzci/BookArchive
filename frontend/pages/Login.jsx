@@ -32,7 +32,7 @@ function Login() {
   }, [user]);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen">
       {/* Navbar solda, ana içerik ortalanıyor */}
       <div className="flex-1 flex items-center justify-center m">
         <div className="bg-white shadow-lg rounded-lg flex flex-col items-center justify-center" style={{ width: 500, height: 500 }} >

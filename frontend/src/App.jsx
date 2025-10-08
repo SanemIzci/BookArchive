@@ -11,6 +11,7 @@ import ResetPassword from '../pages/ResetPassword.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
 import Details from '../pages/Details.jsx';
 import Favorites from '../pages/Favorites.jsx';
+import LogBook from '../pages/LogBook.jsx';
 function App() {
   const dispatch = useDispatch();
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard/>}/>
           <Route path="books/:id" element={<Details/>}/>
           <Route path="favorites" element={<Favorites/>}/>
+          <Route path="log-books" element={<LogBook/>}/>
         </Route>
     </Routes>
   );

@@ -30,16 +30,16 @@ const Dashboard = () => {
 
   
   if (!isAuth) {
-    return <div className="flex justify-center items-center min-h-screen">Redirecting to login...</div>;
+    return <div className="flex justify-center items-center min-h-screen md:mb-100">Redirecting to login...</div>;
   }
   const HandleRoute=()=>{
     navigate('details')
   }
 
   return (
-    <div className="p-4 min-h-full">
+    <div className="p-4 min-h-screen">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Books</h2>
+        <h2 className="text-2xl font-noto-italic-bold text-center">My Books</h2>
         
       </div>
 

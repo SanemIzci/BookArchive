@@ -6,6 +6,14 @@ import { getBookDetail, starReview, updateReadingStatus } from '../redux/BookSli
 import { FaStar } from 'react-icons/fa';
 import StarRating from '../components/StarRating';
 import Review from '../components/Review';
+import { Listbox } from '@headlessui/react';
+
+
+const selectionList = [
+    { name:'To Read'},
+    { name:'Reading'},
+    { name:'Completed'},
+]
 
 function Details() {
     const { book, loading, error } = useSelector((state) => state.book);
@@ -114,21 +122,31 @@ function Details() {
                             {book && (
                                 <div className="flex flex-row items-center space-x-4">
                                     <label className="block text-[#272935] text-sm md:text-base font-medium min-w-[100px]">Reading Status</label>
-                                    <select
-                                        value={book.readingStatus || ''}
-                                        onChange={(e) => {
+                                    <div className="relative">
+                                        <Listbox value={book.readingStatus || 'To Read'} onChange={(value) => {
                                             dispatch(updateReadingStatus({ 
                                                 id: id, 
-                                                readingStatus: e.target.value 
+                                                readingStatus: value 
                                             }));
-                                        }}
-                                        className="px-3 py-2 md:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#272935] text-sm md:text-base w-full max-w-xs"
-                                    >
-                                        <option value="">Select Status</option>
-                                        <option value="to-read">To Read</option>
-                                        <option value="reading">Currently Reading</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
+                                        }}>
+                                            <Listbox.Button className="w-full p-3 border border-gray-300 rounded-md bg-white hover:bg-[#b6b9a4] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#b6b9a4] focus:border-transparent">
+                                                {book.readingStatus || 'To Read'}
+                                            </Listbox.Button>
+                                            <Listbox.Options className="absolute mt-1 w-full border border-gray-300 rounded-md bg-white shadow-lg max-h-60 overflow-auto z-50">
+                                                {selectionList.map((item, index) => (
+                                                    <Listbox.Option
+                                                    key={index}
+                                                    value={item.name}
+                                                    className={({active}) => `cursor-pointer p-3 transition-colors duration-150 ${
+                                                        active ? 'bg-[#b6b9a4] text-black' : 'bg-white text-gray-700 hover:bg-gray-50'
+                                                    }`}
+                                                    >
+                                                        {item.name}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Listbox>
+                                    </div>
                                 </div>
                             )}
                         </div>

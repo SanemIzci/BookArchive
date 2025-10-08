@@ -50,12 +50,9 @@ const BookCard = ({
           className="w-full h-50 object-contain rounded-md mb-3"
         />
       )}
-      <div className="flex justify-between items-start">
-        <div>
-          <h3 className="text-lg font-noto-italic-bold">{title}</h3>
-          <p className="text-gray-600 text-sm">{author}</p>
-        </div>
-        
+       <div className="w-full text-center">
+        <h3 className="text-lg font-noto-italic-bold">{title}</h3>
+        <p className="text-gray-600 text-sm">{author}</p>
       </div>
 
       <span className="text-xs mt-1 inline-block bg-[#d6a49b] text-gray-700 px-2 py-0.5 rounded-full">

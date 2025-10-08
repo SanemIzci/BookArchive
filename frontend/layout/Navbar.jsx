@@ -6,6 +6,7 @@ import { fetchUserProfile } from '../redux/UserSlice';
 import { logout } from '../redux/AuthSlice';
 import { MdOutlineLogout } from 'react-icons/md';
 
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -41,24 +42,31 @@ function Navbar() {
       {/* Sidebar */}
       <div
         className={`fixed md:fixed top-0 left-0 h-full shadow-2xl w-[2/5]  md:w-64
-          p-4 transition-transform duration-300 z-20
+          p-2 transition-transform duration-300 z-20
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           md:translate-x-0`}
       >
-        <h1 className="text-2xl font-bold mb-8 px-3">Book Archive</h1>
+      <div className="flex flex-row items-center bg-transparent">
+        <img
+          src="/assets/logo.png"
+          alt="Logo"
+          className="w-auto sm:h-6 md:h-10 lg:h-50 mx-3 cursor-pointer"
+        />
+      </div>
 
-        <nav className="flex flex-col gap-2 w-full">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.path}
-              className="w-full px-3 py-3 flex items-center gap-4 rounded hover:bg-[#2D68FE] opacity-50 transition text-left"
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="text-base">{item.label}</span>
-            </Link>
-          ))}
 
+
+      <nav className="flex flex-col gap-0 w-full">
+        {navItems.map((item) => (
+          <Link
+            key={item.label}
+            to={item.path}
+            className="w-full py-3 px-4 flex items-center gap-4 rounded hover:bg-[#d6a49b] opacity-75 transition"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-base w-full">{item.label}</span>
+          </Link>
+        ))}
           {!isAuth && (
             <Link
               to="/login"
@@ -98,9 +106,11 @@ function Navbar() {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-opacity-50 z-10 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
+        className={`fixed inset-0 bg-black transition-opacity duration-300 md:hidden ${
+          isOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsOpen(false)}
+      />
       )}
 
       <div>{/* Page content would go here */}</div>

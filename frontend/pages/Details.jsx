@@ -10,9 +10,9 @@ import { Listbox } from '@headlessui/react';
 
 
 const selectionList = [
-    { name:'To Read'},
-    { name:'Reading'},
-    { name:'Completed'},
+    { name:'to-read', display:'To Read'},
+    { name:'reading', display:'Reading'},
+    { name:'completed', display:'Completed'},
 ]
 
 function Details() {
@@ -120,17 +120,17 @@ function Details() {
                             
                             {/* Reading Status Dropdown */}
                             {book && (
-                                <div className="flex flex-row items-center space-x-4">
+                                <div className="flex flex-row items-center space-x-">
                                     <label className="block text-[#272935] text-sm md:text-base font-medium min-w-[100px]">Reading Status</label>
                                     <div className="relative">
-                                        <Listbox value={book.readingStatus || 'To Read'} onChange={(value) => {
+                                        <Listbox value={book.readingStatus || 'to-read'} onChange={(value) => {
                                             dispatch(updateReadingStatus({ 
                                                 id: id, 
                                                 readingStatus: value 
                                             }));
                                         }}>
                                             <Listbox.Button className="w-full p-3 border border-gray-300 rounded-md bg-white hover:bg-[#b6b9a4] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#b6b9a4] focus:border-transparent">
-                                                {book.readingStatus || 'To Read'}
+                                                {selectionList.find(item => item.name === (book.readingStatus || 'to-read'))?.display || 'To Read'}
                                             </Listbox.Button>
                                             <Listbox.Options className="absolute mt-1 w-full border border-gray-300 rounded-md bg-white shadow-lg max-h-60 overflow-auto z-50">
                                                 {selectionList.map((item, index) => (
@@ -141,7 +141,7 @@ function Details() {
                                                         active ? 'bg-[#b6b9a4] text-black' : 'bg-white text-gray-700 hover:bg-gray-50'
                                                     }`}
                                                     >
-                                                        {item.name}
+                                                        {item.display}
                                                     </Listbox.Option>
                                                 ))}
                                             </Listbox.Options>

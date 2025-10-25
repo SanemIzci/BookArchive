@@ -12,6 +12,7 @@ import Dashboard from '../pages/Dashboard.jsx';
 import Details from '../pages/Details.jsx';
 import Favorites from '../pages/Favorites.jsx';
 import LogBook from '../pages/LogBook.jsx';
+import Profile from '../pages/Profile.jsx';
 function App() {
   const dispatch = useDispatch();
 
@@ -29,6 +30,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register/>}/>
+          <Route path="profile" element={<Profile/>}/>
           <Route path="forgotPassword" element={<ForgotPassword/>}/>
           <Route path="resetPassword" element={<ResetPassword/>}/>
           <Route path="dashboard" element={<Dashboard/>}/>

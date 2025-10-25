@@ -228,6 +228,12 @@ export const updateReview = async (req, res) => {
 }
 export const updateReadingStatus = async (req, res) => {
   try {
+    console.log("Update Reading Status Request:", {
+      params: req.params,
+      body: req.body,
+      user: req.user
+    });
+
     const { readingStatus } = req.body;
     if (!readingStatus) {
       return res.status(400).json({ success: false, message: "Reading status is required." });
@@ -238,12 +244,27 @@ export const updateReadingStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Book not found." });
     }
 
+    // Kullanıcı yetkisi kontrolü
+    if (book.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: "You are not authorized to update this book." });
+    }
+
+    // Status güncelleme
     book.readingStatus = readingStatus;
+    
+    // Eğer "completed" olarak işaretleniyorsa, completedAt tarihini ekle
+    if (readingStatus === 'completed') {
+      book.completedAt = new Date();
+    }
+    
     await book.save();
+
+    console.log("Book updated successfully:", book);
 
     res.status(200).json({ success: true, book });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server Error" });
+    console.error("Error updating reading status:", error);
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 };
 

@@ -18,8 +18,31 @@ const bookSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Novel", "Science", "Biography", "Fantasy", "History", "Other"],
-      default: "Other",
+      enum: [
+        "Novel",
+        "Science",
+        "Biography",
+        "Fantasy",
+        "History",
+        "Mystery",
+        "Romance",
+        "Thriller",
+        "Self-Help",
+        "Philosophy",
+        "Poetry",
+        "Travel",
+        "Health",
+        "Business",
+        "Technology",
+        "Religion",
+        "Art",
+        "Children",
+        "Young Adult",
+        "Classic",
+        "Comics",
+        "Other"
+    ],
+    default: "Other",
     },
     image: {
       public_id: { type: String, required: false },
@@ -36,6 +59,9 @@ const bookSchema = new mongoose.Schema(
       default: Date.now, 
     },
     readDate: {
+      type: Date,
+    },
+    completedAt: {
       type: Date,
     },
     rating: {

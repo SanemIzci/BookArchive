@@ -243,6 +243,31 @@ export const toggleFavorite = createAsyncThunk(
   }
 )
 
+export const addBook = createAsyncThunk(
+  'book/addBook',
+  async(book, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = state.user.accessToken || localStorage.getItem('accessToken');
+      const response = await fetch('http://localhost:3000/books/add', {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':`Bearer ${token}`,
+        },
+        body:JSON.stringify(book),
+        credentials:'include',
+      });
+      const data = await response.json();
+      if(!response.ok){
+        return rejectWithValue(data.message || 'Failed to add book');
+      }
+      return data.book;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Something went wrong');
+    }
+  }
+)
 export const bookSlice = createSlice({
   name: 'book',
   initialState,
@@ -379,6 +404,19 @@ export const bookSlice = createSlice({
         }
       })
       .addCase(toggleFavorite.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addBook.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addBook.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.books.push(action.payload);
+      })
+      .addCase(addBook.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })  

@@ -13,6 +13,7 @@ import {
   PointElement,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
+import Loading from '../components/Loading';
 
 ChartJS.register(
   CategoryScale,
@@ -138,13 +139,13 @@ export default function Profile() {
     },
   };
 
-  if (loading) return <div className="flex justify-center items-center h-64"><p>Yükleniyor...</p></div>;
+  if (loading) return <Loading />;
   if (error) return <div className="flex justify-center items-center h-64"><p className="text-red-500">Hata: {error}</p></div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Okuma Alışkanlıklarım</h1>
+        <h1 className="text-3xl font-noto-italic-bold">Okuma Alışkanlıklarım</h1>
         <button
           onClick={fetchStats}
           disabled={loading}
@@ -165,13 +166,13 @@ export default function Profile() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Kategori Grafiği */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">Kategorilere Göre Kitaplar</h2>
+          <h2 className="text-lg font-noto-italic-bold mb-4">Kategorilere Göre Kitaplar</h2>
           <Bar data={categoryChartData} options={chartOptions} />
         </div>
 
         {/* Okuma Durumu */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">Okuma Durumu</h2>
+          <h2 className="text-lg font-noto-italic-bold mb-4g">Okuma Durumu</h2>
           <Doughnut data={readingProgressData} options={chartOptions} />
         </div>
 
@@ -180,16 +181,16 @@ export default function Profile() {
       {/* İstatistik Kartları */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
         <div className="bg-blue-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-blue-800">Toplam Kitap</h3>
+          <h3 className="text-lg font-noto-italic-bold text-blue-800">Toplam Kitap</h3>
           <p className="text-3xl font-bold text-blue-600">{stats?.totalBooks || 0}</p>
         </div>
         <div className="bg-green-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-green-800">Okunan Kitap</h3>
+          <h3 className="text-lg font-noto-italic-bold text-green-800">Okunan Kitap</h3>
           <p className="text-3xl font-bold text-green-600">{stats?.readingProgress?.completed || 0}</p>
         </div>
         <div className="bg-purple-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-purple-800">Favori Kategori</h3>
-          <p className="text-xl font-bold text-purple-600">{stats?.favoriteCategory || 'N/A'}</p>
+          <h3 className="text-lg font-noto-italic-bold text-purple-800">Favori Kategori</h3>
+          <p className="text-xl font-noto-italic-bold text-purple-600">{stats?.favoriteCategory || 'N/A'}</p>
         </div>
       </div>
     </div>

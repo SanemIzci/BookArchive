@@ -43,7 +43,7 @@ function ResetPassword() {
                         name="token"
                         type="token"
                         required
-                        className="appearance-none rounded-t-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-t-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#d6a49b] focus:border-[#d6a49b] focus:z-10 sm:text-sm"
                     />
                 </div>
                 <div>
@@ -54,24 +54,24 @@ function ResetPassword() {
                         name="password"
                         type="password"
                         required
-                        className="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#d6a49b] focus:border-[#d6a49b] focus:z-10 sm:text-sm"
                     />
                 </div>
                 <div>
                     <input 
-                        placeholder="password"
+                        placeholder="Confirm password"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         value={confirmPassword}
                         name="password"
                         type="password"
                         required
-                        className="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#d6a49b] focus:border-[#d6a49b] focus:z-10 sm:text-sm"
                     />
                 </div>
                 <div>
                     <button 
                         type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#d6a49b] hover:bg-[#dfdbd0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d6a49b] disabled:opacity-50 transition-colors duration-200"
                     >
                         {loading ? 'Sending...' : 'Reset'}
                     </button>

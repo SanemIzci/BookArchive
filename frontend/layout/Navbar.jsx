@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchUserProfile } from '../redux/UserSlice';
 import { logout } from '../redux/AuthSlice';
 import { MdOutlineLogout } from 'react-icons/md';
@@ -11,6 +11,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserProfile());
@@ -41,7 +42,7 @@ function Navbar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed md:fixed top-0 left-0 h-full shadow-2xl w-[2/5]  md:w-64
+        className={`fixed md:fixed top-0 left-0 h-full bg-[#dfdbd0] shadow-2xl w-[2/5] md:w-64
           p-2 transition-transform duration-300 z-20
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           md:translate-x-0`}
@@ -50,13 +51,13 @@ function Navbar() {
         <img
           src="/assets/logo.png"
           alt="Logo"
-          className="w-auto sm:h-6 md:h-10 lg:h-50 mx-3 cursor-pointer"
+          className="w-auto sm:h-6 md:h-10 lg:h-50 mx-3 cursor-pointer drop-shadow-[2px_2px_4px_rgba(255,255,255,0.8)] hover:drop-shadow-[3px_3px_6px_rgba(255,255,255,0.9)] transition-all duration-200"
         />
       </div>
 
 
 
-      <nav className="flex flex-col gap-0 w-full">
+      <nav className="flex flex-col gap-0 w-full ">
         {navItems.map((item) => (
           <Link
             key={item.label}
@@ -70,7 +71,7 @@ function Navbar() {
           {!isAuth && (
             <Link
               to="/login"
-              className="w-full px-3 py-3 flex items-center gap-4 rounded hover:bg-[#2D68FE] opacity-50 transition text-left"
+              className="w-full px-3 py-3 flex items-center gap-4 rounded hover:bg-[#d6a49b] opacity-50 transition text-left"
               onClick={() => setIsOpen(false)}
             >
               <span className="text-base">Login</span>
@@ -81,7 +82,7 @@ function Navbar() {
         {isAuth && (
           <button
             onClick={handleLogout}
-            className="w-full px-3 py-3 flex items-center gap-4 rounded hover:bg-[#2D68FE] opacity-50 transition text-left absolute bottom-20 left-0"
+            className="w-full px-3 py-3 flex items-center gap-4 rounded  opacity-50 transition text-left absolute bottom-20 left-0"
           >
             <MdOutlineLogout size={22} />
             <span className="text-base">Logout</span>
@@ -89,11 +90,11 @@ function Navbar() {
         )}
 
         {user && (
-          <div className="absolute bottom-4 left-0 w-full px-3 py-3 flex items-center gap-4 bg-white rounded">
+          <div className="absolute bottom-4 left-0 w-full px-3 py-3 flex items-center gap-4 bg-[#dfdbd0] rounded">
             <img
               src={user.avatar?.url}
               alt="Profile"
-              className="w-10 h-10 rounded-full object-cover border"
+              className="w-10 h-10 rounded-full object-cover border cursor-pointer"
               onClick={()=>{
                 navigate('/profile')
               }}

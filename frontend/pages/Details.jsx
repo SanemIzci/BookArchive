@@ -120,7 +120,7 @@ function Details() {
                             
                             {/* Reading Status Dropdown */}
                             {book && (
-                                <div className="flex flex-row items-center space-x-">
+                                <div className="flex flex-row items-center space-x-4">
                                     <label className="block text-[#272935] text-sm md:text-base font-medium min-w-[100px]">Reading Status</label>
                                     <div className="relative">
                                         <Listbox value={book.readingStatus || 'to-read'} onChange={(value) => {

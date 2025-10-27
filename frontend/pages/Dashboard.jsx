@@ -1,49 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBooks } from '../redux/BookSlice.js';
 import BookCard from '../components/BookCard';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserProfile } from '../redux/UserSlice';
+import Loading from '../components/Loading';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isInitialized, setIsInitialized] = useState(false);
 
   
   const { books, loading, error } = useSelector((state) => state.book);
  
-  const { isAuth, user } = useSelector((state) => state.user);
+  const { isAuth, user, loading: authLoading } = useSelector((state) => state.user);
 
   useEffect(() => {
-   
-    if (!isAuth) {
-      navigate('/login');
-      return;
-    }
+    const token = localStorage.getItem('accessToken');
     
+    if (!isInitialized) {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      setIsInitialized(true);
+    }
 
-    dispatch(getBooks());
-  }, [dispatch, isAuth, navigate]);
+    if (isInitialized && token && !isAuth) {
+      dispatch(fetchUserProfile());
+    }
+
+    if (isInitialized && isAuth) {
+      dispatch(getBooks());
+    }
+  }, [dispatch, isAuth, navigate, isInitialized]);
 
   const handleFavoriteToggle = () => {
     dispatch(getBooks());
   };
 
   
+  if (!isInitialized || authLoading) {
+    return <Loading />;
+  }
+
   if (!isAuth) {
     return <div className="flex justify-center items-center min-h-screen md:mb-100">Redirecting to login...</div>;
   }
+
   const HandleRoute=()=>{
     navigate('details')
   }
 
   return (
-    <div className="p-4 min-h-screen">
+    <div className="p-4 min-h-full">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-noto-italic-bold text-center">My Books</h2>
+        <h2 className="text-2xl font-noto-italic-bold">My Books</h2>
         
       </div>
 
-      {loading && <p className="text-center py-4">Loading...</p>}
+      {loading && <Loading />}
       {error && <p className="text-red-500 text-center py-4">Error: {error}</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

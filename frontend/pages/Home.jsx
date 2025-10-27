@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LibraryImage from '../assets/Library.jpg';
+import Button from '../components/Button';
 
 function Home() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function Home() {
             </p>
           </div>
 
-          <div className='bg-[#dfdbd0] backdrop-blur-sm rounded-lg p-8 md:p-12 shadow-xl mb-8'>
+          <div className='bg-[#d9d4c8] backdrop-blur-sm rounded-lg p-8 md:p-12 shadow-2xl mb-8'>
             <h2 className='text-3xl md:text-4xl font-noto-italic-bold text-[#272935] mb-6 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]'>
               About Us
             </h2>
@@ -48,7 +49,7 @@ function Home() {
           </div>
 
           <div className='grid md:grid-cols-3 gap-6 mb-8'>
-            <div className='bg-[#dfdbd0] backdrop-blur-sm rounded-lg p-6 shadow-lg'>
+            <div className='bg-[#d9d4c8] backdrop-blur-sm rounded-lg p-6 shadow-2xl'>
               <div className='text-4xl mb-4 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]'>📚</div>
               <h3 className='text-xl font-noto-italic-bold text-[#272935] mb-2 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]'>
                 Track Your Books
@@ -58,7 +59,7 @@ function Home() {
               </p>
             </div>
             
-            <div className='bg-[#dfdbd0] backdrop-blur-sm rounded-lg p-6 shadow-lg'>
+            <div className='bg-[#d9d4c8] backdrop-blur-sm rounded-lg p-6 shadow-2xl'>
               <div className='text-4xl mb-4 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]'>⭐</div>
               <h3 className='text-xl font-noto-italic-bold text-[#272935] mb-2 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]'>
                 Rate & Review
@@ -68,7 +69,7 @@ function Home() {
               </p>
             </div>
             
-            <div className='bg-[#dfdbd0] backdrop-blur-sm rounded-lg p-6 shadow-lg'>
+            <div className='bg-[#d9d4c8] backdrop-blur-sm rounded-lg p-6 shadow-2xl'>
               <div className='text-4xl mb-4 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]'>📊</div>
               <h3 className='text-xl font-noto-italic-bold text-[#272935] mb-2 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]'>
                 Reading Insights
@@ -79,29 +80,29 @@ function Home() {
             </div>
           </div>
 
-          <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
+          <div className='flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto'>
             {!isAuth ? (
               <>
-                <button
+                <Button 
+                  name="Sign In" 
                   onClick={() => navigate('/login')}
-                  className='w-full sm:w-auto px-8 py-4 bg-[#d6a49b] hover:bg-[#dfdbd0] text-white text-lg font-medium rounded-lg transition-colors duration-200 shadow-lg'
-                >
-                  Sign In
-                </button>
-                <button
+                  variant="primary"
+                  className="w-full sm:w-auto"
+                />
+                <Button 
+                  name="Register" 
                   onClick={() => navigate('/register')}
-                  className='w-full sm:w-auto px-8 py-4 bg-white/90 hover:bg-white text-[#d6a49b] text-lg font-medium rounded-lg border-2 border-[#d6a49b] transition-colors duration-200 shadow-lg'
-                >
-                  Register
-                </button>
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                />
               </>
             ) : (
-              <button
+              <Button 
+                name="Go to Dashboard" 
                 onClick={() => navigate('/dashboard')}
-                className='w-full sm:w-auto px-8 py-4 bg-[#d6a49b] hover:bg-[#dfdbd0] text-white text-lg font-medium rounded-lg transition-colors duration-200 shadow-lg'
-              >
-                Go to Dashboard
-              </button>
+                variant="primary"
+                className="w-full sm:w-auto"
+              />
             )}
           </div>
         </div>

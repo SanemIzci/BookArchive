@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { CiHome } from "react-icons/ci";
+import { RxDashboard } from "react-icons/rx";
+import { PiBooksLight } from "react-icons/pi";
+import { MdFavoriteBorder, MdOutlineLogout, MdLogin } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchUserProfile } from '../redux/UserSlice';
 import { logout } from '../redux/AuthSlice';
-import { MdOutlineLogout } from 'react-icons/md';
 
 
 function Navbar() {
@@ -18,10 +21,10 @@ function Navbar() {
   }, []);
 
   const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Log Books', path: '/log-books' },
-    { label: 'Favorites', path: '/favorites' },
+    { label: 'Home', path: '/', icon: CiHome },
+    { label: 'Dashboard', path: '/dashboard', icon: RxDashboard },
+    { label: 'Log Books', path: '/log-books', icon: PiBooksLight },
+    { label: 'Favorites', path: '/favorites', icon: MdFavoriteBorder },
   ];
 
   const handleLogout = () => {
@@ -58,22 +61,27 @@ function Navbar() {
 
 
       <nav className="flex flex-col gap-0 w-full ">
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            to={item.path}
-            className="w-full py-3 px-4 flex items-center gap-4 rounded hover:bg-[#d6a49b] opacity-75 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-base w-full">{item.label}</span>
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.label}
+              to={item.path}
+              className="w-full py-3 px-4 flex items-center gap-4 rounded hover:bg-[#d6a49b] opacity-75 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              <Icon size={20} />
+              <span className="text-base w-full">{item.label}</span>
+            </Link>
+          );
+        })}
           {!isAuth && (
             <Link
               to="/login"
               className="w-full px-3 py-3 flex items-center gap-4 rounded hover:bg-[#d6a49b] opacity-50 transition text-left"
               onClick={() => setIsOpen(false)}
             >
+              <MdLogin size={20} />
               <span className="text-base">Login</span>
             </Link>
           )}

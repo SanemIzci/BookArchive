@@ -2,20 +2,22 @@ import Book from "../models/bookModel.js";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
 
-export const allBooks=async(req,res)=>{
-    const books=await Book.find()
-    try {
-        res.status(200).json({success:true,books})
-    } catch (error) {
-        res.status(500).json({success:false,message:"Server Error"})
-        
-    }
+export const allBooks = async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.user._id });
+    res.status(200).json({ success: true, books });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
 }
 export const BookDetail = async (req, res) => {
   try {
     const book_detail = await Book.findById(req.params.id);
     if (!book_detail) {
       return res.status(404).json({ success: false, message: "Book not found." });
+    }
+    if (book_detail.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: "You are not authorized to view this book." });
     }
     res.status(200).json({ success: true, book: book_detail });
   } catch (error) {
@@ -52,7 +54,6 @@ export const addBook = async (req, res) => {
     }
     
     const {
-      user,
       title,
       author,
       category,
@@ -73,7 +74,7 @@ export const addBook = async (req, res) => {
 
     
     const book = await Book.create({
-      user,
+      user: req.user._id,
       title,
       author,
       category,
@@ -270,8 +271,7 @@ export const updateReadingStatus = async (req, res) => {
 
 export const getFavorites = async (req, res) => {
   try {
-    
-    const favorites = await Book.find({ isFavorite: true });
+    const favorites = await Book.find({ isFavorite: true, user: req.user._id });
     res.status(200).json({ success: true, favorites });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

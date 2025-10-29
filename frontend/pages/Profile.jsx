@@ -165,14 +165,14 @@ export default function Profile() {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Kategori Grafiği */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg h-[50vh]">
           <h2 className="text-lg font-noto-italic-bold mb-4">Kategorilere Göre Kitaplar</h2>
           <Bar data={categoryChartData} options={chartOptions} />
         </div>
 
         {/* Okuma Durumu */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-noto-italic-bold mb-4g">Okuma Durumu</h2>
+        <div className="flex flex-col items-center justify-center bg-white p-10 rounded-lg shadow-lg h-[50vh]">
+          <h2 className="text-lg font-noto-italic-bold">Okuma Durumu</h2>
           <Doughnut data={readingProgressData} options={chartOptions} />
         </div>
 
@@ -180,17 +180,17 @@ export default function Profile() {
 
       {/* İstatistik Kartları */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-        <div className="bg-blue-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-noto-italic-bold text-blue-800">Toplam Kitap</h3>
-          <p className="text-3xl font-bold text-blue-600">{stats?.totalBooks || 0}</p>
+        <div className="bg-[#dfdbd0] p-6 rounded-lg text-center">
+          <h3 className="text-lg font-noto-italic-bold ">Toplam Kitap</h3>
+          <p className="text-3xl font-bold ">{stats?.totalBooks || 0}</p>
         </div>
-        <div className="bg-green-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-noto-italic-bold text-green-800">Okunan Kitap</h3>
-          <p className="text-3xl font-bold text-green-600">{stats?.readingProgress?.completed || 0}</p>
+        <div className="bg-[#d6a49b] p-6 rounded-lg text-center">
+          <h3 className="text-lg font-noto-italic-bold ">Okunan Kitap</h3>
+          <p className="text-3xl font-bold ">{stats?.readingProgress?.completed || 0}</p>
         </div>
-        <div className="bg-purple-100 p-6 rounded-lg text-center">
-          <h3 className="text-lg font-noto-italic-bold text-purple-800">Favori Kategori</h3>
-          <p className="text-xl font-noto-italic-bold text-purple-600">{stats?.favoriteCategory || 'N/A'}</p>
+        <div className="bg-[#b6b9a4] p-6 rounded-lg text-center">
+          <h3 className="text-lg font-noto-italic-bold ">Favori Kategori</h3>
+          <p className="text-xl font-noto-italic-bold">{stats?.favoriteCategory || 'N/A'}</p>
         </div>
       </div>
     </div>
